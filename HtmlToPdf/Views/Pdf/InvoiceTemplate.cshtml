@@ -1,0 +1,93 @@
+﻿@model InvoiceViewModel
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Tahoma;
+            margin: 40px;
+            direction: rtl;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">فاکتور فروش</div>
+
+    <div>
+        <table style="border-width:0px !important">
+            <tr>
+                <td style="width: 50%; border-width: 0px !important;text-align:right">
+                    <h4>
+                        شرکت خدمات مهندسی ایرانیان
+                    </h4>
+            
+                </td>
+                <td style="border-width: 0px !important;text-align:left"> شماره فاکتور : <span>@Model.InvoiceNumber</span></td>
+            </tr>
+            <tr>
+                <td style="width: 50%; border-width: 0px !important"></td>
+                <td style="border-width: 0px !important;text-align:left">  تاریخ : <span>@Model.Date</span></td>
+            </tr>
+
+            <tr>
+                <td style="width: 50%; border-width: 0px !important;text-align:right">  نام مشتری : <span>@Model.CustomerName</span></td>
+                <td style="width: 50%;border-width: 0px !important;"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ردیف</th>
+                    <th>شرح</th>
+                    <th>تعداد</th>
+                    <th>قیمت واحد</th>
+                    <th>مبلغ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Items.Count; i++)
+                {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@Model.Items[i].Description</td>
+                        <td>@Model.Items[i].Quantity</td>
+                        <td>@Model.Items[i].UnitPrice.ToString("N0")</td>
+                        <td>@Model.Items[i].Total.ToString("N0")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <h4 style="text-align:left">جمع کل: @Model.TotalAmount.ToString("N0") تومان</h4>
+</body>
+</html>
