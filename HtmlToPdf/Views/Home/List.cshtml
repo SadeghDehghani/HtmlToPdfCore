@@ -1,0 +1,59 @@
+﻿@model List<string>
+
+<div>
+    <h2>انتخاب فایل HTML</h2>
+    <select id="htmlFiles" class="form-control">
+        <option value="">-- انتخاب کنید --</option>
+        @foreach (var file in Model)
+        {
+            <option value="@file">@file</option>
+        }
+    </select>
+    <button id="btnLoad" class="btn btn-primary mt-2">نمایش فایل</button>
+</div>
+
+<hr />
+
+<div id="htmlContainer" style="border:1px solid #ccc; padding:20px; background:#fafafa;"></div>
+<button id="btnDownload" class="btn btn-success mt-2" disabled>دانلود PDF</button>
+
+
+@section Scripts{
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        $(function () {
+            // دکمه نمایش فایل
+            $("#btnLoad").click(function () {
+                var fileName = $("#htmlFiles").val();
+                if (!fileName) {
+                    alert("لطفا یک فایل انتخاب کنید.");
+                    return;
+                }
+
+                $.get("/Home/GetHtmlFile?fileName=" + fileName, function (data) {
+                    $("#htmlContainer").html(data);
+                    $("#btnDownload").prop("disabled", false);
+                });
+            });
+
+            // دکمه دانلود PDF
+            $("#btnDownload").click(function () {
+                var element = document.getElementById("htmlContainer");
+
+                var opt = {
+                    margin: 0.5,
+                    filename: 'خروجی.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(element).save();
+            });
+        });
+    </script>
+}
+
