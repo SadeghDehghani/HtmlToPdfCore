@@ -23,7 +23,7 @@ namespace HtmlToPdf.Controllers
             var model = new InvoiceViewModel
             {
                 InvoiceNumber = "1001",
-                Date = "۱۴۰۴/۰۴/۰۶",
+                Date = "1404/07/02",
                 CustomerName = "علی رستگار",
                 Items = new List<InvoiceItem>
             {
